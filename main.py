@@ -1,5 +1,4 @@
 import pandas as pd
-
 def categorize_nps(x):
     """ Take a NPS rating and outputs whether it's a "promoter" , "passive", "detractor"
     or invalid. Rating is 0 to 10
@@ -121,6 +120,16 @@ def calculate_nps_by_score(df):
     # Return a Series with the NPS scores broken by source
     return result
 
+def calculate_nps_by_date(df):
+    """Calculate NPS Score for each date to find out when people rate detractor too much
+    
+    Args:
+        df(DataFrame): DataFrame which is converted from combined CSV, include many source
+        
+    Return:
+        Series: NPS Scores broken by date
+    """
+    return df.groupby(df['response_date']).apply(calculate_nps)
 #######################################################################
 #Finally, This is my workflow:
 
@@ -135,3 +144,8 @@ csv_dict = {
 #Second, I check every csv before converted to DaTaFrame and add column source_type for each datafram. Then I combine all file
 df = combine_nps_csvs(csv_dict)
 
+#Then, I calculate nps score from all source. So We can conclude where we should improve more
+print(calculate_nps_by_score(df))
+
+#I wanna check whether any time that User rate many detractor ?
+groupby_date = calculate_nps_by_date(df)
