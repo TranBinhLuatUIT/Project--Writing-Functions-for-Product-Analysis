@@ -1,2 +1,2 @@
 # Project: Writing Functions for Product Analysis
- A project from Data Camp
+A Project from DataCamp and I want to deal with it by myself for study
