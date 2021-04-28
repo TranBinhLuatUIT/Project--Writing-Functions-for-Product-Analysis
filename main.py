@@ -43,4 +43,33 @@ def check_csv(path):
 
 print(check_csv("datasets/corrupted.csv"))
         
+def combine_nps_csvs(csvs_dict):
+    """Combine all csv file together to a dataframe from a dictionary 
+
+    Args:
+        csvs_dict(dict) : contain key (path to your csv), value (source of this csv) 
+
+    Returns:
+        DataFrame
+
+    """
+    combined = pd.DataFrame()
+    for key,value in csvs_dict.items():
+        if(check_csv(key)):
+            temp = convert_csv_to_df(key, value)
+            combined = combined + temp
+        else:
+                print(value + " is not valid")
     
+    return combined
+
+csv_dict = {
+  "datasets/2020Q4_nps_email.csv": "email",
+  "datasets/2020Q4_nps_mobile.csv": "mobile",
+  "datasets/2020Q4_nps_web.csv": "web",
+  "datasets/corrupted.csv": "social_media"
+}
+
+#test combine_nps_csvs
+df = combine_nps_csvs(csv_dict)
+
